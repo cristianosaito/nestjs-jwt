@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    entrypoint: npm run start:dev
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/home/node/app
+
+  db:
+    build: ./.docker/mysql
+    restart: always
+    tty: true
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+      MYSQL_TCP_PORT: 3307
+
+    ports:
+      - "3307:3307"
